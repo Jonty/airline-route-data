@@ -1,0 +1,28 @@
+name: Update airline route data
+on: 
+  schedule:
+    - cron: '0 0 * * 0'
+  workflow_dispatch:
+jobs:
+  scrape-and-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+      - name: Scrape and commit
+        run: |
+          pip install -r requirements.txt
+          python -u scrape_airline_routes.py
+
+          git config --global user.email "bot@jonty.co.uk"
+          git config --global user.name "Airline Route Update GHA"
+
+          git add airline_routes.json
+          git commit -m "Automatic airline route update"
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}

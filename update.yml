@@ -1,0 +1,30 @@
+name: Mirror data
+on: 
+  schedule:
+    - cron: '0 4 * * *'
+  workflow_dispatch:
+jobs:
+  mirror-and-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+      - name: Mirror and commit
+        run: |
+          wget -nv -m ftp://$FTP_USER_PASS@ftp.bulk.companieshouse.gov.uk/DIR.*
+
+          git lfs uninstall
+          git config --global user.email "companieshouse@limehouselabs.org"
+          git config --global user.name "Companies House Update GHA"
+
+          git add ftp.bulk.companieshouse.gov.uk
+          git commit -m "Automatic FTP mirror update"
+        env:
+          FTP_USER_PASS: ${{ secrets.FTP_USER_PASS }}
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
