@@ -3,6 +3,8 @@ Global airline routes data
 
 This is a single JSON file that describes every passenger airport and their outbound airline routes, automatically updated weekly.
 
+The file is indexed by IATA airport code. Routes specify the destination airport IATA code, flight time in minutes, and distance in kilometers.
+
 You probably want to look at [airline_routes.json](airline_routes.json).
 
 Example entry
