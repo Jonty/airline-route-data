@@ -52,3 +52,8 @@ Example entry
         "timezone": "Asia/Dubai"
     }
 }
+```
+
+A nice map of the data
+----------------------
+<img src="https://raw.githubusercontent.com/Jonty/airline-route-data/master/map.png">
