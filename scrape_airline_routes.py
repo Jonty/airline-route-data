@@ -14,7 +14,7 @@ if __name__ == '__main__':
     options = uc.ChromeOptions()
     options.headless=True
     options.add_argument('--headless')
-    driver = uc.Chrome(options=options, version_main=109)
+    driver = uc.Chrome(options=options)
 
     driver.get('https://www.flightsfrom.com/airports')
     response = driver.find_elements(By.TAG_NAME, 'body')[0].text
