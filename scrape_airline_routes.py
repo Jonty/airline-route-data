@@ -18,7 +18,12 @@ if __name__ == '__main__':
 
     driver.get('https://www.flightsfrom.com/airports')
     response = driver.find_elements(By.TAG_NAME, 'body')[0].text
-    airports_json = json.loads(response)
+    try:
+        airports_json = json.loads(response)
+    except json.decoder.JSONDecodeError as e:
+        print("Failed to load airport JSON, page body was: '%s'" % response)
+        sys.exit(1)
+
     iatas = [airport["IATA"] for airport in airports_json["response"]["airports"]]
 
     airports = defaultdict(dict)
