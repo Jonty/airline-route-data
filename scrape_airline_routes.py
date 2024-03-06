@@ -12,7 +12,7 @@ from fp.fp import FreeProxy
 
 if __name__ == '__main__':
     print("Getting a proxy...")
-    proxy = FreeProxy().get(rand=True)
+    proxy = FreeProxy(rand=True).get()
     print("Using %s as a proxy" % proxy)
 
     options = uc.ChromeOptions()
