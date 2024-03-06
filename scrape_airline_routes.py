@@ -8,14 +8,20 @@ import undetected_chromedriver as uc
 from selenium.webdriver.common.by import By
 import lxml.html
 from geopy.distance import geodesic
+from fp.fp import FreeProxy
 
 if __name__ == '__main__':
+    print("Getting a proxy...")
+    proxy = FreeProxy().get()
+    print("Using %s as a proxy" % proxy)
 
     options = uc.ChromeOptions()
     options.headless=True
     options.add_argument('--headless')
+    options.add_argument('--proxy-server=%s' % proxy)
     driver = uc.Chrome(options=options)
 
+    print("Fetching airports list...")
     driver.get('https://www.flightsfrom.com/airports')
     response = driver.find_elements(By.TAG_NAME, 'body')[0].text
     try:

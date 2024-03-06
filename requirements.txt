@@ -2,3 +2,4 @@ geopy==2.2.0
 lxml==4.6.3
 requests==2.26.0
 undetected-chromedriver
+free-proxy
