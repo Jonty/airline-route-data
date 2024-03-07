@@ -4,30 +4,18 @@ import json
 from collections import defaultdict
 import time
 
-import undetected_chromedriver as uc
-from selenium.webdriver.common.by import By
+from curl_cffi import requests
 import lxml.html
 from geopy.distance import geodesic
-from fp.fp import FreeProxy
 
 if __name__ == '__main__':
-    print("Getting a proxy...")
-    proxy = FreeProxy(rand=True).get()
-    print("Using %s as a proxy" % proxy)
-
-    options = uc.ChromeOptions()
-    options.headless=True
-    options.add_argument('--headless')
-    options.add_argument('--proxy-server=%s' % proxy)
-    driver = uc.Chrome(options=options)
 
     print("Fetching airports list...")
-    driver.get('https://www.flightsfrom.com/airports')
-    response = driver.find_elements(By.TAG_NAME, 'body')[0].text
+    response = requests.get("https://www.flightsfrom.com/airports", impersonate="chrome")
     try:
-        airports_json = json.loads(response)
+        airports_json = json.loads(response.content)
     except json.decoder.JSONDecodeError as e:
-        print("Failed to load airport JSON, page body was: '%s'" % response)
+        print("Failed to load airport JSON, page body was: '%s'" % response.content)
         sys.exit(1)
 
     iatas = [airport["IATA"] for airport in airports_json["response"]["airports"]]
@@ -41,8 +29,8 @@ if __name__ == '__main__':
 
         print("Fetching #%s: %s" % (len(airports), iata))
 
-        driver.get("https://www.flightsfrom.com/%s/destinations" % iata)
-        root = lxml.html.document_fromstring(driver.page_source)
+        response = requests.get("https://www.flightsfrom.com/%s/destinations" % iata, impersonate="chrome")
+        root = lxml.html.document_fromstring(response.content)
         metadata_nodes = root.xpath(
             '//script[contains(., "window.airport")]'
         )
