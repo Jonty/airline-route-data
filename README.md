@@ -7,53 +7,75 @@ The file is indexed by IATA airport code. Routes specify the destination airport
 
 You probably want to look at [airline_routes.json](airline_routes.json).
 
+A nice map of the data
+----------------------
+<img src="https://raw.githubusercontent.com/Jonty/airline-route-data/master/map.png">
+
 Example entry
 -------------
 ```JSON
 {
-    "AAN": {
-        "city_name": "Al Ain",
-        "continent": "AS",
-        "country": "United Arab Emirates",
-        "country_code": "AE",
-        "display_name": "Al Ain International Airport (AAN), United Arab Emirates",
-        "elevation": 869,
-        "iata": "AAN",
-        "icao": "OMAL",
-        "latitude": "24.260231",
-        "longitude": "55.616626",
-        "name": "Al Ain International Airport",
+    "LHR": {
+        "city_name": "London",
+        "continent": "EU",
+        "country": "United Kingdom",
+        "country_code": "GB",
+        "display_name": "London (LHR), United Kingdom",
+        "elevation": 80,
+        "iata": "LHR",
+        "icao": "EGLL",
+        "latitude": "51.469603",
+        "longitude": "-0.453566",
+        "name": "Heathrow",
         "routes": [
             {
                 "carriers": [
-                    "Air India Express"
+                    {
+                        "iata": "BA",
+                        "name": "British Airways"
+                    },
+                    {
+                        "iata": "KL",
+                        "name": "KLM"
+                    }
                 ],
-                "iata": "CCJ",
-                "km": 2594,
-                "min": 230
+                "iata": "AMS",
+                "km": 371,
+                "min": 80
             },
             {
                 "carriers": [
-                    "Etihad Airways"
+                    {
+                        "iata": "BA",
+                        "name": "British Airways"
+                    },
+                    {
+                        "iata": "LH",
+                        "name": "Lufthansa"
+                    }
                 ],
-                "iata": "JED",
-                "km": 1711,
-                "min": 175
+                "iata": "MUC",
+                "km": 943,
+                "min": 115
             },
             {
                 "carriers": [
-                    "Pakistan International Airlines"
+                    {
+                        "iata": "AF",
+                        "name": "Air France"
+                    },
+                    {
+                        "iata": "BA",
+                        "name": "British Airways"
+                    }
                 ],
-                "iata": "PEW",
-                "km": 1882,
-                "min": 175
-            }
+                "iata": "CDG",
+                "km": 348,
+                "min": 80
+            },
+            ...
         ],
-        "timezone": "Asia/Dubai"
+        "timezone": "Europe/London"
     }
 }
 ```
-
-A nice map of the data
-----------------------
-<img src="https://raw.githubusercontent.com/Jonty/airline-route-data/master/map.png">
