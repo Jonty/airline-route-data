@@ -31,13 +31,19 @@ if __name__ == "__main__":
 
         print("Fetching #%s: %s" % (len(airports), iata))
 
-        response = requests.get(
-            "https://www.flightsfrom.com/%s/destinations" % iata, impersonate="chrome"
-        )
-        root = lxml.html.document_fromstring(response.content)
-        metadata_nodes = root.xpath('//script[contains(., "window.airport")]')
-        metadata_tag = metadata_nodes[0].text_content()
-        metadata_bits = metadata_tag.split("window.")
+        while True:
+            try:
+                response = requests.get(
+                    "https://www.flightsfrom.com/%s/destinations" % iata, impersonate="chrome"
+                )
+                root = lxml.html.document_fromstring(response.content)
+                metadata_nodes = root.xpath('//script[contains(., "window.airport")]')
+                metadata_tag = metadata_nodes[0].text_content()
+                metadata_bits = metadata_tag.split("window.")
+                break
+            except Exception as e:
+                print("! Error while fetching IATA, having a little 5m sleep before retrying: %s" % e)
+                time.sleep(60*5)
 
         metadata = {}
         for bit in metadata_bits:
