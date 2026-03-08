@@ -81,10 +81,10 @@ if __name__ == "__main__":
             carriers = []
             for aroute in route["airlineroutes"]:
                 is_passenger = (
-                    aroute["airline"]["is_scheduled_passenger"] == "1"
-                    or aroute["airline"]["is_nonscheduled_passenger"] == "1"
+                    str(aroute["airline"]["is_scheduled_passenger"]) == "1"
+                    or str(aroute["airline"]["is_nonscheduled_passenger"]) == "1"
                 )
-                is_active = aroute["airline"]["active"]
+                is_active = str(aroute["airline"]["active"]) == "1"
                 if is_active and is_passenger:
                     carriers.append(
                         {
