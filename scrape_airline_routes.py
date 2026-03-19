@@ -10,9 +10,16 @@ from geopy.distance import geodesic
 
 if __name__ == "__main__":
 
+
     print("Fetching airports list...")
+
+    airports_headers = {
+        "Accept": "application/json",
+        "Origin": "https://www.flightsfrom.com",
+        "Referer": "https://www.flightsfrom.com/"
+    }
     response = requests.get(
-        "https://www.flightsfrom.com/airports", impersonate="chrome"
+        "https://www.flightsfrom.com/airports", impersonate="chrome", headers=airports_headers
     )
     try:
         airports_json = json.loads(response.content)
@@ -33,8 +40,15 @@ if __name__ == "__main__":
 
         while True:
             try:
+                destinations_headers = {
+                    "Accept": "text/html",
+                    "Origin": "https://www.flightsfrom.com",
+                    "Referer": "https://www.flightsfrom.com/"
+                }
                 response = requests.get(
-                    "https://www.flightsfrom.com/%s/destinations" % iata, impersonate="chrome"
+                    "https://www.flightsfrom.com/%s/destinations" % iata,
+                    impersonate="chrome",
+                    headers=destinations_headers
                 )
                 root = lxml.html.document_fromstring(response.content)
                 metadata_nodes = root.xpath('//script[contains(., "window.airport")]')
