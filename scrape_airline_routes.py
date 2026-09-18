@@ -8,6 +8,14 @@ from curl_cffi import requests
 import lxml.html
 from geopy.distance import geodesic
 
+
+def clean_coord(value):
+    # Upstream data occasionally has stray junk in coordinates, e.g. "-33.888056,"
+    if isinstance(value, str):
+        return value.strip(" ,")
+    return value
+
+
 if __name__ == "__main__":
 
 
@@ -84,6 +92,8 @@ if __name__ == "__main__":
         }
         if airport["elevation"]:
             airport["elevation"] = int(airport["elevation"])
+        airport["latitude"] = clean_coord(airport["latitude"])
+        airport["longitude"] = clean_coord(airport["longitude"])
 
         routes = []
         for route in metadata["routes"]:
@@ -108,7 +118,10 @@ if __name__ == "__main__":
                     )
 
             orig_ll = (airport["latitude"], airport["longitude"])
-            dest_ll = (route["airport"]["latitude"], route["airport"]["longitude"])
+            dest_ll = (
+                clean_coord(route["airport"]["latitude"]),
+                clean_coord(route["airport"]["longitude"]),
+            )
             distance = int(geodesic(orig_ll, dest_ll).km)
 
             routes.append(
